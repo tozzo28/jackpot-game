@@ -1328,6 +1328,33 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Regras específicas quando em mobile (classe aplicada via JS) */
+        body.is-mobile .golden-rays,
+        body.is-mobile::after {
+            display: none; /* reduzir efeitos pesados no mobile */
+        }
+
+        body.is-mobile .container {
+            max-width: 360px;
+            width: 95%;
+            margin: 12px auto;
+            border-width: 3px;
+        }
+
+        body.is-mobile .jackpot-title { font-size: 1.8rem; }
+        body.is-mobile .reels-section { padding: 16px; }
+        body.is-mobile .slots { gap: 8px; }
+        body.is-mobile .slot { width: 64px; height: 72px; font-size: 1.8rem; }
+        body.is-mobile .spin-btn { padding: 12px 24px; font-size: 1.1rem; }
+        body.is-mobile .info-panel { grid-template-columns: 1fr; gap: 12px; }
+        body.is-mobile .controls { grid-template-columns: 1fr; gap: 12px; }
+        body.is-mobile .quick-bets { grid-template-columns: repeat(2, 1fr); }
+        body.is-mobile .back-button { top: 10px; left: 10px; padding: 10px 16px; font-size: 12px; z-index: 2000; }
+        body.is-mobile .game-card { padding: 20px; }
+        body.is-mobile .casino-title { font-size: 2.2rem; }
+        body.is-mobile .casino-logo { font-size: 2.8rem; }
+        body.is-mobile .games-grid { gap: 16px; }
     </style>
 </head>
 <body>
@@ -1901,8 +1928,39 @@
         `;
         document.head.appendChild(style);
 
+        // Detecção de mobile e aplicação de classe
+        function detectMobile() {
+            const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            const isMobileUA = /android|iphone|ipad|ipod|windows phone/i.test(ua);
+            if (isTouch || isMobileUA || window.matchMedia('(max-width: 480px)').matches) {
+                document.body.classList.add('is-mobile');
+                return true;
+            }
+            document.body.classList.remove('is-mobile');
+            return false;
+        }
+
         // Inicializar sistema de efeitos
         const effects = new EffectSystem();
+
+        // Ajustes de efeitos para mobile
+        (function tuneEffectsForMobile(){
+            const isMobile = detectMobile();
+            // Reduzir partículas em mobile
+            const originalCreateParticleBurst = effects.createParticleBurst.bind(effects);
+            effects.createParticleBurst = function(x, y, color = '#FFD700', count = 20) {
+                const reduced = document.body.classList.contains('is-mobile');
+                originalCreateParticleBurst(x, y, color, reduced ? Math.max(8, Math.floor(count * 0.4)) : count);
+            };
+            // Desativar partículas flutuantes contínuas no mobile
+            const originalStartParticleSystem = effects.startParticleSystem.bind(effects);
+            effects.startParticleSystem = function() {
+                if (!document.body.classList.contains('is-mobile')) {
+                    originalStartParticleSystem();
+                }
+            };
+        })();
 
         // Sistema de navegação entre jogos
         let currentGame = 'menu';
@@ -2895,6 +2953,8 @@
 
         // Efeitos de hover e interação
         document.addEventListener('DOMContentLoaded', function() {
+            // Detectar / aplicar classe mobile
+            detectMobile();
             // Inicializar com menu principal
             document.getElementById('mainMenu').style.display = 'flex';
             document.getElementById('jackpotGame').style.display = 'none';
@@ -2902,35 +2962,13 @@
             document.getElementById('roletaGame').style.display = 'none';
             document.getElementById('dadosGame').style.display = 'none';
             updateTotalSaldo();
-            
+
+            // Reaplicar detecção em resize/orientation change
+            window.addEventListener('resize', detectMobile);
+            window.addEventListener('orientationchange', detectMobile);
+
             // Event listeners serão configurados quando o jogo Jackpot for aberto
-            
-            // Efeito de hover na alavanca
-            const lever = document.querySelector('.slot-lever');
-            if (lever) {
-                lever.addEventListener('mouseenter', () => {
-                    effects.addGlowEffect(lever);
-                });
-                
-                lever.addEventListener('mouseleave', () => {
-                    effects.removeGlowEffect(lever);
-                });
-            }
-            
-            // Efeitos de clique nos botões de aposta
-            document.querySelectorAll('.quick-bet').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    effects.zoomElement(btn);
-                });
-            });
-            
-            // Efeito de clique no botão reset
-            const resetBtn = document.querySelector('.reset-btn');
-            if (resetBtn) {
-                resetBtn.addEventListener('click', () => {
-                    effects.zoomElement(resetBtn);
-                });
-            }
+            // ... existing code ...
         });
     </script>
 </body>
