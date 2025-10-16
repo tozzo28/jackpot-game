@@ -2113,6 +2113,7 @@
         }
 
         function getCardValue(card) {
+            if (!card) return 0;
             if (card.value === 'A') return 11;
             if (['J', 'Q', 'K'].includes(card.value)) return 10;
             return parseInt(card.value);
@@ -2175,8 +2176,10 @@
                 playerCardsEl.appendChild(createCardElement(card));
             });
             
-            // Atualizar pontuações
-            const dealerValue = gameInProgress ? getCardValue(dealerCards[0]) : calculateHandValue(dealerCards);
+            // Atualizar pontuações (protegendo enquanto a primeira carta do dealer não foi dada)
+            const dealerValue = gameInProgress
+                ? (dealerCards.length > 0 ? getCardValue(dealerCards[0]) : 0)
+                : calculateHandValue(dealerCards);
             const playerValue = calculateHandValue(playerCards);
             
             document.getElementById('dealerScore').textContent = `Pontos: ${dealerValue}`;
