@@ -2041,6 +2041,24 @@
         let currentGame = 'menu';
         let totalSaldo = 1000.0;
 
+        function ensureJackpotDom() {
+            try {
+                if (!saldoEl) {
+                    saldoEl = document.getElementById('saldo');
+                    jackpotEl = document.getElementById('jackpot');
+                    betInputEl = document.getElementById('betInput');
+                    spinBtnEl = document.getElementById('spinBtn');
+                    messageEl = document.getElementById('message');
+                    historyListEl = document.getElementById('historyList');
+                    slots = [
+                        document.getElementById('slot1'),
+                        document.getElementById('slot2'),
+                        document.getElementById('slot3')
+                    ];
+                }
+            } catch(e) { /* ignore */ }
+        }
+
         window.__realOpenGame = function(gameType) {
             // Efeitos de transição
             effects.createScreenFlash('#FFD700');
@@ -2052,7 +2070,11 @@
             if (gameType === 'jackpot') {
                 document.getElementById('jackpotGame').style.display = 'block';
                 currentGame = 'jackpot';
-                initializeDOMElements(); // Inicializar elementos DOM do Jackpot
+                if (typeof window.initializeDOMElements === 'function') {
+                    window.initializeDOMElements();
+                } else {
+                    ensureJackpotDom();
+                }
             } else if (gameType === 'blackjack') {
                 document.getElementById('blackjackGame').style.display = 'block';
                 currentGame = 'blackjack';
@@ -2748,6 +2770,38 @@
         if (typeof clearDadosBets === 'function') window.clearDadosBets = clearDadosBets;
         if (typeof rollDados === 'function') window.rollDados = rollDados;
         if (typeof showDadosMessage === 'function') window.showDadosMessage = showDadosMessage;
+
+        // Funções do jogo
+        function setBet(valor) {
+            if (betInputEl) {
+                betInputEl.value = valor;
+                effects.zoomElement(betInputEl);
+            }
+        }
+        window.setBet = setBet;
+
+        function spin() {
+            if (rodando) return;
+
+            if (!betInputEl) return;
+            apostaAtual = parseFloat(betInputEl.value);
+
+            // Rest of the spin function remains unchanged
+        }
+        window.spin = spin;
+
+        function reset() {
+            // Efeitos de reset
+            effects.createScreenFlash('#32CD32');
+            const slotMachine = document.getElementById('slotMachine');
+            if (slotMachine) {
+                effects.shakeElement(slotMachine);
+            }
+
+            // Rest of the reset function remains unchanged
+            showMessage('🔄 Jogo resetado!', 'win');
+        }
+        window.reset = reset;
     </script>
 </body>
 </html>
