@@ -1372,6 +1372,39 @@
             body:not(.is-mobile) .controls { grid-template-columns: 1fr 1fr; gap: 24px; }
         }
         /* ... existing code ... */
+        /* Blackjack - visual do baralho e cartas voando */
+        #blackjackGame { position: relative; }
+        .blackjack-deck {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 60px;
+            height: 80px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #111827, #1f2937);
+            border: 2px solid #f59e0b;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+        }
+        .flying-card {
+            position: fixed;
+            width: 60px;
+            height: 80px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #111827, #1f2937);
+            border: 2px solid #f59e0b;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.45);
+            transform: translate(-50%, -50%) scale(0.9) rotate(0deg);
+            transition: transform 420ms ease-in, opacity 420ms ease-in;
+            z-index: 2000;
+        }
+        .deck-shake { animation: deckShake 0.5s ease-in-out; }
+        @keyframes deckShake {
+            0% { transform: translate(0,0) rotate(0); }
+            25% { transform: translate(-2px, 1px) rotate(-2deg); }
+            50% { transform: translate(2px, -1px) rotate(1deg); }
+            75% { transform: translate(-1px, 2px) rotate(-1deg); }
+            100% { transform: translate(0,0) rotate(0); }
+        }
     </style>
 </head>
 <body>
@@ -1560,6 +1593,8 @@
                 <div class="info-value" id="blackjackBet">R$ 50.00</div>
             </div>
         </div>
+
+        <div class="blackjack-deck" id="blackjackDeck"></div>
 
         <div class="message" id="blackjackMessage"></div>
         
@@ -2152,52 +2187,117 @@
             document.getElementById('blackjackBet').textContent = `R$ ${blackjackBet.toFixed(2)}`;
         }
 
-        function newBlackjackGame() {
+        // Utilitários de animação de cartas (Blackjack)
+        function getElementCenter(el) {
+            const r = el.getBoundingClientRect();
+            return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+        }
+
+        function createFlyingCard(contentHTML = '') {
+            const c = document.createElement('div');
+            c.className = 'flying-card';
+            c.innerHTML = contentHTML;
+            document.body.appendChild(c);
+            return c;
+        }
+
+        async function animateShuffleDeck(times = 2) {
+            const deck = document.getElementById('blackjackDeck');
+            if (!deck) return;
+            for (let i = 0; i < times; i++) {
+                deck.classList.add('deck-shake');
+                await new Promise(r => setTimeout(r, 520));
+                deck.classList.remove('deck-shake');
+                await new Promise(r => setTimeout(r, 120));
+            }
+        }
+
+        async function animateDealCard(targetEl, showFace = false, value = '', suit = '') {
+            const deck = document.getElementById('blackjackDeck');
+            if (!deck || !targetEl) return;
+            const start = getElementCenter(deck);
+            const end = getElementCenter(targetEl);
+
+            const faceHTML = showFace
+                ? `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;color:${(suit==='♥'||suit==='♦')?'#DC143C':'#000'};font-weight:700;"><div style="font-size:18px;">${value}</div><div style="font-size:22px;">${suit}</div></div>`
+                : '';
+
+            const card = createFlyingCard(faceHTML);
+            card.style.left = `${start.x}px`;
+            card.style.top = `${start.y}px`;
+            card.style.opacity = '0.95';
+
+            await new Promise(r => requestAnimationFrame(() => r()));
+
+            const angle = (Math.random() * 12 - 6).toFixed(2);
+            card.style.transform = `translate(-50%, -50%) scale(1) rotate(${angle}deg)`;
+            card.style.left = `${end.x}px`;
+            card.style.top = `${end.y}px`;
+
+            await new Promise(r => setTimeout(r, 420));
+            card.remove();
+        }
+
+        // Integração no fluxo do Blackjack
+        const originalNewBlackjackGame = newBlackjackGame;
+        newBlackjackGame = async function() {
             if (blackjackSaldo < blackjackBet) {
                 showBlackjackMessage('Saldo insuficiente!', 'lose');
                 return;
             }
-            
+
+            await animateShuffleDeck(2);
+
+            // Executa lógica original de início
             blackjackSaldo -= blackjackBet;
             gameInProgress = true;
-            
-            // Limpar cartas
             playerCards = [];
             dealerCards = [];
-            
-            // Distribuir cartas iniciais
-            const deck = createDeck();
-            playerCards.push(deck.pop());
-            dealerCards.push(deck.pop());
-            playerCards.push(deck.pop());
-            dealerCards.push(deck.pop());
-            
+            const deckArr = createDeck();
+
+            // Distribuição com animação: Jogador 1, Dealer 1 (oculta), Jogador 2, Dealer 2
+            playerCards.push(deckArr.pop());
+            await animateDealCard(document.getElementById('playerCards'), true, playerCards[0].value, playerCards[0].suit);
             updateDisplay();
-            updateButtons();
-            
-            // Verificar blackjack natural
-            const playerValue = calculateHandValue(playerCards);
-            if (playerValue === 21) {
+
+            dealerCards.push(deckArr.pop());
+            await animateDealCard(document.getElementById('dealerCards'), false);
+            updateDisplay();
+
+            playerCards.push(deckArr.pop());
+            await animateDealCard(document.getElementById('playerCards'), true, playerCards[1].value, playerCards[1].suit);
+            updateDisplay();
+
+            dealerCards.push(deckArr.pop());
+            await animateDealCard(document.getElementById('dealerCards'), true, dealerCards[1].value, dealerCards[1].suit);
+            updateDisplay();
+
+            // Verifica blackjack natural
+            const pv = calculateHandValue(playerCards);
+            if (pv === 21) {
                 stand();
             }
+            updateButtons();
         }
 
-        function hit() {
+        const originalHit = hit;
+        hit = async function() {
             if (!gameInProgress) return;
-            
-            const deck = createDeck();
-            playerCards.push(deck.pop());
+            const deckArr = createDeck();
+            const next = deckArr.pop();
+            await animateDealCard(document.getElementById('playerCards'), true, next.value, next.suit);
+            playerCards.push(next);
             updateDisplay();
-            
-            const playerValue = calculateHandValue(playerCards);
-            if (playerValue > 21) {
+            const pv = calculateHandValue(playerCards);
+            if (pv > 21) {
                 gameInProgress = false;
                 showBlackjackMessage('Estourou! Você perdeu!', 'lose');
                 updateButtons();
-            } else if (playerValue === 21) {
+            } else if (pv === 21) {
                 stand();
             }
         }
+        /* fim animações blackjack */
 
         function stand() {
             if (!gameInProgress) return;
