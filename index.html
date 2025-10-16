@@ -2730,6 +2730,24 @@
         // Definir globais finais para o menu
         window.openGame = function(gameType){ return window.__realOpenGame(gameType); };
         window.backToMenu = function(){ return window.__realBackToMenu(); };
+
+        // Expor funções usadas por onclick/roteamento
+        if (typeof initializeDOMElements === 'function') window.initializeDOMElements = initializeDOMElements;
+        if (typeof spin === 'function') window.spin = spin;
+        if (typeof reset === 'function') window.reset = reset;
+        if (typeof setBet === 'function') window.setBet = setBet;
+
+        // Roleta
+        if (typeof placeBet === 'function') window.placeBet = placeBet;
+        if (typeof clearBets === 'function') window.clearBets = clearBets;
+        if (typeof spinRoleta === 'function') window.spinRoleta = spinRoleta;
+        if (typeof showRoletaMessage === 'function') window.showRoletaMessage = showRoletaMessage;
+
+        // Dados
+        if (typeof placeDadosBet === 'function') window.placeDadosBet = placeDadosBet;
+        if (typeof clearDadosBets === 'function') window.clearDadosBets = clearDadosBets;
+        if (typeof rollDados === 'function') window.rollDados = rollDados;
+        if (typeof showDadosMessage === 'function') window.showDadosMessage = showDadosMessage;
     </script>
 </body>
 </html>
