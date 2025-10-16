@@ -2076,12 +2076,12 @@
                 }, 2000);
             }
         };
-        // Substitui o fallback e processa fila
-        window.openGame = window.__realOpenGame;
+        // Substitui o fallback com um proxy simples que chama a real
+        window.openGame = function(gameType){ return window.__realOpenGame(gameType); };
         if (Array.isArray(window.__openGameQueue)) {
             while (window.__openGameQueue.length) {
                 const pending = window.__openGameQueue.shift();
-                try { window.openGame(pending); } catch(e) { console.error(e); }
+                try { window.__realOpenGame(pending); } catch(e) { console.error(e); }
             }
         }
 
@@ -2110,7 +2110,7 @@
             // Atualizar saldo total
             updateTotalSaldo();
         };
-        window.backToMenu = window.__realBackToMenu;
+        window.backToMenu = function(){ return window.__realBackToMenu(); };
 
         function updateTotalSaldo() {
             document.getElementById('totalSaldo').textContent = `R$ ${totalSaldo.toFixed(2)}`;
