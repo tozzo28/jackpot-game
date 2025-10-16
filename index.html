@@ -2018,7 +2018,7 @@
         let currentGame = 'menu';
         let totalSaldo = 1000.0;
 
-        function openGame(gameType) {
+        window.openGame = function(gameType) {
             // Efeitos de transição
             effects.createScreenFlash('#FFD700');
             
@@ -2054,7 +2054,7 @@
             }
         }
 
-        function backToMenu() {
+        window.backToMenu = function() {
             // Efeitos de transição
             effects.createScreenFlash('#32CD32');
             
