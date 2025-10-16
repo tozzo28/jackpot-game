@@ -2706,7 +2706,28 @@
         }
 
         function updateDadosDisplay() {
-            // ... (rest of the code remains unchanged)
+            document.getElementById('dadosSaldo').textContent = `R$ ${dadosSaldo.toFixed(2)}`;
+            
+            // Atualizar apostas visuais
+            Object.keys(dadosBets).forEach(sum => {
+                const betElement = document.querySelector(`[data-sum="${sum}"]`);
+                if (betElement) {
+                    betElement.classList.add('active');
+                    betElement.textContent = `${sum} (R$ ${dadosBets[sum].toFixed(2)})`;
+                }
+            });
+        }
+
+        function showDadosMessage(text, type) {
+            const messageEl = document.getElementById('dadosMessage');
+            if (messageEl) {
+                messageEl.textContent = text;
+                messageEl.className = `message show ${type}`;
+                
+                setTimeout(() => {
+                    messageEl.className = 'message';
+                }, 3000);
+            }
         }
 
         // Efeitos de hover e interação
@@ -2769,7 +2790,6 @@
         if (typeof placeDadosBet === 'function') window.placeDadosBet = placeDadosBet;
         if (typeof clearDadosBets === 'function') window.clearDadosBets = clearDadosBets;
         if (typeof rollDados === 'function') window.rollDados = rollDados;
-        if (typeof showDadosMessage === 'function') window.showDadosMessage = showDadosMessage;
 
         // Funções do jogo
         function setBet(valor) {
@@ -3011,6 +3031,7 @@
         window.updateHistory = updateHistory;
         window.spin = spin;
         window.reset = reset;
+        window.showDadosMessage = showDadosMessage;
     </script>
 </body>
 </html>
