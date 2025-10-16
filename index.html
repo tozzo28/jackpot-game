@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎰 JACKPOT GAME 🎰</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
         * {
             margin: 0;
@@ -22,28 +20,6 @@
             align-items: center;
             overflow-x: hidden;
             position: relative;
-        }
-
-        /* Canvas 3D */
-        #three-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Container principal com z-index maior */
-        .main-container {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100vh;
         }
 
         body::before {
@@ -232,6 +208,269 @@
         @keyframes fireSweep {
             0% { left: -100%; }
             100% { left: 100%; }
+        }
+
+        /* Menu Principal */
+        .main-menu {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .menu-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .casino-logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: glowPulse 2s ease-in-out infinite alternate;
+        }
+
+        .casino-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF6347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .casino-subtitle {
+            font-size: 1.2rem;
+            color: #FFD700;
+            margin: 10px 0 0 0;
+            opacity: 0.8;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #8B0000 100%);
+            border: 3px solid #FFD700;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
+            border-color: #FFA500;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .game-card:hover::before {
+            left: 100%;
+        }
+
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        .game-card h3 {
+            color: #FFD700;
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
+            font-weight: bold;
+        }
+
+        .game-card p {
+            color: #FFF;
+            margin: 0 0 15px 0;
+            opacity: 0.9;
+        }
+
+        .game-preview {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 1.2rem;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .menu-footer {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .player-info {
+            display: flex;
+            justify-content: center;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .game-container {
+            position: relative;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Estilos do Blackjack */
+        .blackjack-table {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 30px 0;
+            padding: 20px;
+        }
+
+        .dealer-section, .player-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .dealer-section h3, .player-section h3 {
+            color: #FFD700;
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            min-height: 80px;
+            align-items: center;
+        }
+
+        .card {
+            width: 60px;
+            height: 80px;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card.red {
+            color: #DC143C;
+        }
+
+        .card.black {
+            color: #000;
+        }
+
+        .card-value {
+            font-size: 1.2rem;
+        }
+
+        .card-suit {
+            font-size: 1.5rem;
+        }
+
+        .score {
+            color: #FFD700;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .blackjack-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .blackjack-btn {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .blackjack-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .blackjack-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .container {
@@ -770,14 +1009,65 @@
     </style>
 </head>
 <body>
-    <canvas id="three-canvas"></canvas>
-    
     <div class="particles" id="particles"></div>
     <div class="particle-burst" id="particleBurst"></div>
     <div class="golden-rays" id="goldenRays"></div>
     
-    <div class="main-container">
-        <div class="container" id="slotMachine">
+    <!-- Menu Principal -->
+    <div class="main-menu" id="mainMenu">
+        <div class="menu-header">
+            <div class="casino-logo">🎰</div>
+            <h1 class="casino-title">CASINO ROYALE</h1>
+            <p class="casino-subtitle">Escolha seu jogo da sorte!</p>
+        </div>
+        
+        <div class="games-grid">
+            <div class="game-card" onclick="openGame('jackpot')">
+                <div class="game-icon">🎰</div>
+                <h3>JACKPOT</h3>
+                <p>Máquina de slots clássica</p>
+                <div class="game-preview">777</div>
+            </div>
+            
+            <div class="game-card" onclick="openGame('blackjack')">
+                <div class="game-icon">🃏</div>
+                <h3>BLACKJACK</h3>
+                <p>21 é o número da sorte</p>
+                <div class="game-preview">A♠ K♠</div>
+            </div>
+            
+            <div class="game-card" onclick="openGame('roleta')">
+                <div class="game-icon">🎲</div>
+                <h3>ROLETA</h3>
+                <p>Gire a roda da fortuna</p>
+                <div class="game-preview">● 0 ●</div>
+            </div>
+            
+            <div class="game-card" onclick="openGame('dados')">
+                <div class="game-icon">🎯</div>
+                <h3>DADOS</h3>
+                <p>Lance os dados da sorte</p>
+                <div class="game-preview">⚀ ⚁ ⚂</div>
+            </div>
+        </div>
+        
+        <div class="menu-footer">
+            <div class="player-info">
+                <div class="info-card">
+                    <div class="info-label">💰 Saldo Total</div>
+                    <div class="info-value" id="totalSaldo">R$ 1000.00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container do Jogo Jackpot -->
+    <div class="container game-container" id="jackpotGame" style="display: none;">
+        <!-- Botão Voltar -->
+        <div class="back-button" onclick="backToMenu()">
+            <span>←</span> Voltar ao Menu
+        </div>
+        
         <!-- JACKPOT Section -->
         <div class="jackpot-section">
             <div class="crown">👑</div>
@@ -834,7 +1124,56 @@
             <div class="history-title">📜 Histórico</div>
             <div id="historyList"></div>
         </div>
+    </div>
+
+    <!-- Container do Jogo Blackjack -->
+    <div class="container game-container" id="blackjackGame" style="display: none;">
+        <!-- Botão Voltar -->
+        <div class="back-button" onclick="backToMenu()">
+            <span>←</span> Voltar ao Menu
         </div>
+        
+        <!-- BLACKJACK Section -->
+        <div class="jackpot-section">
+            <div class="crown">🃏</div>
+            <h1 class="jackpot-title">BLACKJACK</h1>
+        </div>
+
+        <!-- Mesa de Blackjack -->
+        <div class="blackjack-table">
+            <div class="dealer-section">
+                <h3>Dealer</h3>
+                <div class="cards" id="dealerCards"></div>
+                <div class="score" id="dealerScore">Pontos: 0</div>
+            </div>
+            
+            <div class="player-section">
+                <h3>Jogador</h3>
+                <div class="cards" id="playerCards"></div>
+                <div class="score" id="playerScore">Pontos: 0</div>
+            </div>
+        </div>
+
+        <!-- Controles do Blackjack -->
+        <div class="blackjack-controls">
+            <button class="blackjack-btn" id="hitBtn" onclick="hit()">HIT</button>
+            <button class="blackjack-btn" id="standBtn" onclick="stand()">STAND</button>
+            <button class="blackjack-btn" id="newGameBtn" onclick="newBlackjackGame()">NOVA MÃO</button>
+        </div>
+
+        <!-- Info do Blackjack -->
+        <div class="info-panel">
+            <div class="info-card saldo">
+                <div class="info-label">💰 Saldo</div>
+                <div class="info-value" id="blackjackSaldo">R$ 1000.00</div>
+            </div>
+            <div class="info-card jackpot">
+                <div class="info-label">🎯 Aposta</div>
+                <div class="info-value" id="blackjackBet">R$ 50.00</div>
+            </div>
+        </div>
+
+        <div class="message" id="blackjackMessage"></div>
     </div>
 
     <script>
@@ -1007,319 +1346,262 @@
         // Inicializar sistema de efeitos
         const effects = new EffectSystem();
 
-        // Sistema 3D com Three.js
-        class SlotMachine3D {
-            constructor() {
-                this.scene = null;
-                this.camera = null;
-                this.renderer = null;
-                this.slotMachine = null;
-                this.controls = null;
-                this.animationId = null;
-                this.init();
-            }
+        // Sistema de navegação entre jogos
+        let currentGame = 'menu';
+        let totalSaldo = 1000.0;
 
-            init() {
-                // Cena
-                this.scene = new THREE.Scene();
-                this.scene.background = new THREE.Color(0x0a0a0a);
-
-                // Câmera
-                this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                this.camera.position.set(0, 0, 5);
-
-                // Renderer
-                const canvas = document.getElementById('three-canvas');
-                this.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
-                this.renderer.setSize(window.innerWidth, window.innerHeight);
-                this.renderer.shadowMap.enabled = true;
-                this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-                // Controles (opcional - para debug)
-                // this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-
-                // Luzes
-                this.setupLights();
-
-                // Criar máquina de slot
-                this.createSlotMachine();
-
-                // Iniciar animação
-                this.animate();
-
-                // Resize handler
-                window.addEventListener('resize', () => this.onWindowResize());
-            }
-
-            setupLights() {
-                // Luz ambiente
-                const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
-                this.scene.add(ambientLight);
-
-                // Luz direcional principal
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-                directionalLight.position.set(5, 5, 5);
-                directionalLight.castShadow = true;
-                directionalLight.shadow.mapSize.width = 2048;
-                directionalLight.shadow.mapSize.height = 2048;
-                this.scene.add(directionalLight);
-
-                // Luz pontual dourada
-                const pointLight = new THREE.PointLight(0xffd700, 0.8, 100);
-                pointLight.position.set(0, 2, 3);
-                this.scene.add(pointLight);
-
-                // Luzes coloridas para efeito
-                const redLight = new THREE.PointLight(0xff0000, 0.5, 50);
-                redLight.position.set(-2, 0, 2);
-                this.scene.add(redLight);
-
-                const blueLight = new THREE.PointLight(0x0000ff, 0.5, 50);
-                blueLight.position.set(2, 0, 2);
-                this.scene.add(blueLight);
-            }
-
-            createSlotMachine() {
-                this.slotMachine = new THREE.Group();
-
-                // Corpo principal da máquina
-                const bodyGeometry = new THREE.BoxGeometry(3, 4, 1.5);
-                const bodyMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0x8B0000,
-                    shininess: 100,
-                    specular: 0x222222
-                });
-                const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-                body.position.y = 0;
-                body.castShadow = true;
-                body.receiveShadow = true;
-                this.slotMachine.add(body);
-
-                // Seção JACKPOT (topo)
-                const jackpotGeometry = new THREE.BoxGeometry(3.2, 0.8, 1.7);
-                const jackpotMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0xDC143C,
-                    emissive: 0x220000,
-                    shininess: 150
-                });
-                const jackpotSection = new THREE.Mesh(jackpotGeometry, jackpotMaterial);
-                jackpotSection.position.y = 2.4;
-                jackpotSection.castShadow = true;
-                this.slotMachine.add(jackpotSection);
-
-                // Texto JACKPOT
-                this.createText('JACKPOT', 0, 2.4, 0.9, 0xffd700);
-
-                // Seção dos reels (meio)
-                const reelsGeometry = new THREE.BoxGeometry(3.2, 2, 1.7);
-                const reelsMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0x8B0000,
-                    emissive: 0x110000
-                });
-                const reelsSection = new THREE.Mesh(reelsGeometry, reelsMaterial);
-                reelsSection.position.y = 0.5;
-                reelsSection.castShadow = true;
-                this.slotMachine.add(reelsSection);
-
-                // Criar os 3 reels
-                for (let i = 0; i < 3; i++) {
-                    this.createReel(i - 1, 0.5, 0.9);
-                }
-
-                // Alavanca
-                this.createLever();
-
-                // Seção SPIN (baixo)
-                const spinGeometry = new THREE.BoxGeometry(3.2, 0.8, 1.7);
-                const spinMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0x8B0000,
-                    emissive: 0x110000
-                });
-                const spinSection = new THREE.Mesh(spinGeometry, spinMaterial);
-                spinSection.position.y = -1.6;
-                spinSection.castShadow = true;
-                this.slotMachine.add(spinSection);
-
-                // Botão SPIN
-                this.createSpinButton();
-
-                // Bordas douradas
-                this.createGoldenBorders();
-
-                // Adicionar ao grupo principal
-                this.scene.add(this.slotMachine);
-            }
-
-            createReel(x, y, z) {
-                // Reel
-                const reelGeometry = new THREE.CylinderGeometry(0.3, 0.3, 1.2, 16);
-                const reelMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0xffffff,
-                    shininess: 50
-                });
-                const reel = new THREE.Mesh(reelGeometry, reelMaterial);
-                reel.position.set(x, y, z);
-                reel.rotation.x = Math.PI / 2;
-                reel.castShadow = true;
-                this.slotMachine.add(reel);
-
-                // Números no reel (simplificado)
-                const numberGeometry = new THREE.PlaneGeometry(0.2, 0.3);
-                const numberMaterial = new THREE.MeshBasicMaterial({ 
-                    color: 0xff0000,
-                    transparent: true,
-                    opacity: 0.8
-                });
-                const number = new THREE.Mesh(numberGeometry, numberMaterial);
-                number.position.set(x, y, z + 0.35);
-                this.slotMachine.add(number);
-            }
-
-            createLever() {
-                // Base da alavanca
-                const baseGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.2, 8);
-                const baseMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
-                const base = new THREE.Mesh(baseGeometry, baseMaterial);
-                base.position.set(1.8, 0.5, 0.9);
-                this.slotMachine.add(base);
-
-                // Haste da alavanca
-                const shaftGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.8, 8);
-                const shaftMaterial = new THREE.MeshPhongMaterial({ color: 0xffd700 });
-                const shaft = new THREE.Mesh(shaftGeometry, shaftMaterial);
-                shaft.position.set(1.8, 1.1, 0.9);
-                shaft.rotation.z = -0.3;
-                this.slotMachine.add(shaft);
-
-                // Cabo da alavanca
-                const handleGeometry = new THREE.SphereGeometry(0.15, 16, 16);
-                const handleMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0xff0000,
-                    shininess: 100
-                });
-                const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-                handle.position.set(1.8, 1.5, 0.7);
-                this.slotMachine.add(handle);
-            }
-
-            createSpinButton() {
-                const buttonGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.2, 16);
-                const buttonMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0xff0000,
-                    emissive: 0x220000,
-                    shininess: 100
-                });
-                const button = new THREE.Mesh(buttonGeometry, buttonMaterial);
-                button.position.set(0, -1.6, 0.9);
-                button.castShadow = true;
-                this.slotMachine.add(button);
-
-                // Texto SPIN
-                this.createText('SPIN', 0, -1.6, 1.0, 0xffffff);
-            }
-
-            createGoldenBorders() {
-                const borderGeometry = new THREE.BoxGeometry(3.3, 4.1, 1.8);
-                const borderMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0xffd700,
-                    emissive: 0x332200,
-                    shininess: 200
-                });
-                const border = new THREE.Mesh(borderGeometry, borderMaterial);
-                border.position.y = 0;
-                this.slotMachine.add(border);
-
-                // Criar borda interna
-                const innerGeometry = new THREE.BoxGeometry(3.1, 3.9, 1.6);
-                const innerMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0x8B0000,
-                    emissive: 0x110000
-                });
-                const inner = new THREE.Mesh(innerGeometry, innerMaterial);
-                inner.position.y = 0;
-                this.slotMachine.add(inner);
-            }
-
-            createText(text, x, y, z, color) {
-                // Texto simplificado usando geometria
-                const textGeometry = new THREE.PlaneGeometry(0.8, 0.2);
-                const textMaterial = new THREE.MeshBasicMaterial({ 
-                    color: color,
-                    transparent: true,
-                    opacity: 0.9
-                });
-                const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-                textMesh.position.set(x, y, z);
-                this.slotMachine.add(textMesh);
-            }
-
-            animate() {
-                this.animationId = requestAnimationFrame(() => this.animate());
-
-                // Rotação suave da máquina
-                if (this.slotMachine) {
-                    this.slotMachine.rotation.y += 0.005;
-                }
-
-                // Renderizar
-                this.renderer.render(this.scene, this.camera);
-            }
-
-            onWindowResize() {
-                this.camera.aspect = window.innerWidth / window.innerHeight;
-                this.camera.updateProjectionMatrix();
-                this.renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-
-            // Métodos para interação com o jogo
-            spinAnimation() {
-                if (this.slotMachine) {
-                    // Animação de shake durante o giro
-                    const originalPosition = this.slotMachine.position.clone();
-                    let shakeIntensity = 0.1;
-                    
-                    const shake = () => {
-                        this.slotMachine.position.x = originalPosition.x + (Math.random() - 0.5) * shakeIntensity;
-                        this.slotMachine.position.y = originalPosition.y + (Math.random() - 0.5) * shakeIntensity;
-                        shakeIntensity *= 0.95;
-                        
-                        if (shakeIntensity > 0.01) {
-                            requestAnimationFrame(shake);
-                        } else {
-                            this.slotMachine.position.copy(originalPosition);
-                        }
-                    };
-                    
-                    shake();
-                }
-            }
-
-            winAnimation() {
-                if (this.slotMachine) {
-                    // Animação de vitória - brilho e rotação
-                    const originalRotation = this.slotMachine.rotation.clone();
-                    let glowIntensity = 0;
-                    
-                    const glow = () => {
-                        glowIntensity += 0.1;
-                        this.slotMachine.rotation.y += 0.1;
-                        this.slotMachine.scale.setScalar(1 + Math.sin(glowIntensity) * 0.1);
-                        
-                        if (glowIntensity < Math.PI * 4) {
-                            requestAnimationFrame(glow);
-                        } else {
-                            this.slotMachine.rotation.copy(originalRotation);
-                            this.slotMachine.scale.setScalar(1);
-                        }
-                    };
-                    
-                    glow();
-                }
+        function openGame(gameType) {
+            // Efeitos de transição
+            effects.createScreenFlash('#FFD700');
+            
+            // Esconder menu
+            document.getElementById('mainMenu').style.display = 'none';
+            
+            // Mostrar jogo selecionado
+            if (gameType === 'jackpot') {
+                document.getElementById('jackpotGame').style.display = 'block';
+                currentGame = 'jackpot';
+            } else if (gameType === 'blackjack') {
+                document.getElementById('blackjackGame').style.display = 'block';
+                currentGame = 'blackjack';
+                blackjackSaldo = totalSaldo; // Sincronizar saldo
+                updateDisplay();
+            } else {
+                // Para outros jogos (ainda não implementados)
+                showMessage(`🎮 ${gameType.toUpperCase()} em desenvolvimento!`, 'info');
+                setTimeout(() => {
+                    backToMenu();
+                }, 2000);
             }
         }
 
-        // Inicializar sistema 3D
-        const slotMachine3D = new SlotMachine3D();
+        function backToMenu() {
+            // Efeitos de transição
+            effects.createScreenFlash('#32CD32');
+            
+            // Esconder jogo atual
+            if (currentGame === 'jackpot') {
+                document.getElementById('jackpotGame').style.display = 'none';
+            } else if (currentGame === 'blackjack') {
+                document.getElementById('blackjackGame').style.display = 'none';
+                totalSaldo = blackjackSaldo; // Sincronizar saldo de volta
+            }
+            
+            // Mostrar menu
+            document.getElementById('mainMenu').style.display = 'flex';
+            currentGame = 'menu';
+            
+            // Atualizar saldo total
+            updateTotalSaldo();
+        }
+
+        function updateTotalSaldo() {
+            document.getElementById('totalSaldo').textContent = `R$ ${totalSaldo.toFixed(2)}`;
+        }
+
+        // Sistema de Blackjack
+        let blackjackSaldo = 1000.0;
+        let blackjackBet = 50.0;
+        let playerCards = [];
+        let dealerCards = [];
+        let gameInProgress = false;
+
+        const suits = ['♠', '♥', '♦', '♣'];
+        const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+
+        function createDeck() {
+            const deck = [];
+            for (let suit of suits) {
+                for (let value of values) {
+                    deck.push({ suit, value });
+                }
+            }
+            return shuffleDeck(deck);
+        }
+
+        function shuffleDeck(deck) {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+            return deck;
+        }
+
+        function getCardValue(card) {
+            if (card.value === 'A') return 11;
+            if (['J', 'Q', 'K'].includes(card.value)) return 10;
+            return parseInt(card.value);
+        }
+
+        function calculateHandValue(cards) {
+            let value = 0;
+            let aces = 0;
+            
+            for (let card of cards) {
+                if (card.value === 'A') {
+                    aces++;
+                    value += 11;
+                } else {
+                    value += getCardValue(card);
+                }
+            }
+            
+            while (value > 21 && aces > 0) {
+                value -= 10;
+                aces--;
+            }
+            
+            return value;
+        }
+
+        function createCardElement(card, isHidden = false) {
+            const cardEl = document.createElement('div');
+            cardEl.className = 'card';
+            
+            if (isHidden) {
+                cardEl.innerHTML = '<div class="card-value">?</div><div class="card-suit">?</div>';
+                cardEl.style.background = '#333';
+                cardEl.style.color = '#FFD700';
+            } else {
+                const isRed = card.suit === '♥' || card.suit === '♦';
+                cardEl.className += isRed ? ' red' : ' black';
+                cardEl.innerHTML = `
+                    <div class="card-value">${card.value}</div>
+                    <div class="card-suit">${card.suit}</div>
+                `;
+            }
+            
+            return cardEl;
+        }
+
+        function updateDisplay() {
+            // Atualizar cartas do dealer
+            const dealerCardsEl = document.getElementById('dealerCards');
+            dealerCardsEl.innerHTML = '';
+            dealerCards.forEach((card, index) => {
+                const isHidden = index === 0 && gameInProgress;
+                dealerCardsEl.appendChild(createCardElement(card, isHidden));
+            });
+            
+            // Atualizar cartas do jogador
+            const playerCardsEl = document.getElementById('playerCards');
+            playerCardsEl.innerHTML = '';
+            playerCards.forEach(card => {
+                playerCardsEl.appendChild(createCardElement(card));
+            });
+            
+            // Atualizar pontuações
+            const dealerValue = gameInProgress ? getCardValue(dealerCards[0]) : calculateHandValue(dealerCards);
+            const playerValue = calculateHandValue(playerCards);
+            
+            document.getElementById('dealerScore').textContent = `Pontos: ${dealerValue}`;
+            document.getElementById('playerScore').textContent = `Pontos: ${playerValue}`;
+            
+            // Atualizar saldo
+            document.getElementById('blackjackSaldo').textContent = `R$ ${blackjackSaldo.toFixed(2)}`;
+            document.getElementById('blackjackBet').textContent = `R$ ${blackjackBet.toFixed(2)}`;
+        }
+
+        function newBlackjackGame() {
+            if (blackjackSaldo < blackjackBet) {
+                showBlackjackMessage('Saldo insuficiente!', 'lose');
+                return;
+            }
+            
+            blackjackSaldo -= blackjackBet;
+            gameInProgress = true;
+            
+            // Limpar cartas
+            playerCards = [];
+            dealerCards = [];
+            
+            // Distribuir cartas iniciais
+            const deck = createDeck();
+            playerCards.push(deck.pop());
+            dealerCards.push(deck.pop());
+            playerCards.push(deck.pop());
+            dealerCards.push(deck.pop());
+            
+            updateDisplay();
+            updateButtons();
+            
+            // Verificar blackjack natural
+            const playerValue = calculateHandValue(playerCards);
+            if (playerValue === 21) {
+                stand();
+            }
+        }
+
+        function hit() {
+            if (!gameInProgress) return;
+            
+            const deck = createDeck();
+            playerCards.push(deck.pop());
+            updateDisplay();
+            
+            const playerValue = calculateHandValue(playerCards);
+            if (playerValue > 21) {
+                gameInProgress = false;
+                showBlackjackMessage('Estourou! Você perdeu!', 'lose');
+                updateButtons();
+            } else if (playerValue === 21) {
+                stand();
+            }
+        }
+
+        function stand() {
+            if (!gameInProgress) return;
+            
+            gameInProgress = false;
+            
+            // Dealer joga
+            while (calculateHandValue(dealerCards) < 17) {
+                const deck = createDeck();
+                dealerCards.push(deck.pop());
+            }
+            
+            updateDisplay();
+            
+            const playerValue = calculateHandValue(playerCards);
+            const dealerValue = calculateHandValue(dealerCards);
+            
+            if (dealerValue > 21) {
+                blackjackSaldo += blackjackBet * 2;
+                showBlackjackMessage('Dealer estourou! Você ganhou!', 'win');
+                effects.createParticleBurst(window.innerWidth / 2, window.innerHeight / 2, '#32CD32', 20);
+            } else if (playerValue > dealerValue) {
+                blackjackSaldo += blackjackBet * 2;
+                showBlackjackMessage('Você ganhou!', 'win');
+                effects.createParticleBurst(window.innerWidth / 2, window.innerHeight / 2, '#32CD32', 20);
+            } else if (playerValue < dealerValue) {
+                showBlackjackMessage('Dealer ganhou!', 'lose');
+                effects.shakeElement(document.getElementById('blackjackGame'));
+            } else {
+                blackjackSaldo += blackjackBet;
+                showBlackjackMessage('Empate!', 'info');
+            }
+            
+            totalSaldo = blackjackSaldo;
+            updateButtons();
+        }
+
+        function updateButtons() {
+            const hitBtn = document.getElementById('hitBtn');
+            const standBtn = document.getElementById('standBtn');
+            
+            hitBtn.disabled = !gameInProgress;
+            standBtn.disabled = !gameInProgress;
+        }
+
+        function showBlackjackMessage(text, type) {
+            const messageEl = document.getElementById('blackjackMessage');
+            messageEl.textContent = text;
+            messageEl.className = `message show ${type}`;
+            
+            setTimeout(() => {
+                messageEl.className = 'message';
+            }, 3000);
+        }
 
         // Elementos DOM
         const saldoEl = document.getElementById('saldo');
@@ -1394,9 +1676,6 @@
             effects.zoomElement(spinBtnEl);
             effects.createScreenFlash('#FFD700');
             effects.addGlowEffect(document.getElementById('slotMachine'));
-            
-            // Animação 3D
-            slotMachine3D.spinAnimation();
 
             // Deduzir aposta
             saldo -= apostaAtual;
@@ -1514,9 +1793,6 @@
                     effects.createScreenFlash('#FFD700');
                     effects.shakeElement(document.getElementById('slotMachine'));
                     
-                    // Animação 3D de vitória
-                    slotMachine3D.winAnimation();
-                    
                     showMessage(`🎰🎰🎰 JACKPOT! Você ganhou R$ ${premio.toFixed(2)}!`, 'jackpot');
                     jackpot = 5000.0;
                     addHistory(`🎉 JACKPOT! Resultado: ${resultado.join(', ')} | Prêmio: R$ ${premio.toFixed(2)}`);
@@ -1556,6 +1832,7 @@
             // Atualizar interface
             saldoEl.textContent = `R$ ${saldo.toFixed(2)}`;
             jackpotEl.textContent = `R$ ${jackpot.toFixed(2)}`;
+            totalSaldo = saldo; // Sincronizar com saldo total
             
             if (saldo <= 0) {
                 showMessage('Game Over! Pressione RESETAR para recomeçar.', 'lose');
@@ -1596,6 +1873,7 @@
             effects.shakeElement(document.getElementById('slotMachine'));
             
             saldo = 1000.0;
+            totalSaldo = 1000.0; // Sincronizar com saldo total
             jackpot = 5000.0;
             betInputEl.value = 10;
             historico = [];
@@ -1621,7 +1899,11 @@
 
         // Efeitos de hover e interação
         document.addEventListener('DOMContentLoaded', function() {
-            showMessage('🎰 Bem-vindo ao Jackpot Game! Boa sorte!', 'win');
+            // Inicializar com menu principal
+            document.getElementById('mainMenu').style.display = 'flex';
+            document.getElementById('jackpotGame').style.display = 'none';
+            document.getElementById('blackjackGame').style.display = 'none';
+            updateTotalSaldo();
             
             // Efeitos de hover nos slots
             slots.forEach(slot => {
