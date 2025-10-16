@@ -2239,8 +2239,8 @@
         }
 
         // Integração no fluxo do Blackjack
-        const originalNewBlackjackGame = newBlackjackGame;
-        newBlackjackGame = async function() {
+        const originalNewBlackjackGame = window.newBlackjackGame || function(){};
+        window.newBlackjackGame = async function() {
             if (blackjackSaldo < blackjackBet) {
                 showBlackjackMessage('Saldo insuficiente!', 'lose');
                 return;
@@ -2278,10 +2278,10 @@
                 stand();
             }
             updateButtons();
-        }
+        };
 
-        const originalHit = hit;
-        hit = async function() {
+        const originalHit = window.hit || function(){};
+        window.hit = async function() {
             if (!gameInProgress) return;
             const deckArr = createDeck();
             const next = deckArr.pop();
@@ -2296,7 +2296,7 @@
             } else if (pv === 21) {
                 stand();
             }
-        }
+        };
         /* fim animações blackjack */
 
         function stand() {
