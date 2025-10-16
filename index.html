@@ -475,6 +475,285 @@
             transform: none;
         }
 
+        /* Estilos da Roleta */
+        .roleta-table {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+        }
+
+        .roleta-wheel-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .roleta-wheel {
+            width: 200px;
+            height: 200px;
+            border: 4px solid #FFD700;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #228B22, #32CD32);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .wheel-center {
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border-radius: 50%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .ball {
+            width: 8px;
+            height: 8px;
+            background: #FF0000;
+            border-radius: 50%;
+            position: absolute;
+            top: -4px;
+            left: 6px;
+            z-index: 11;
+        }
+
+        .wheel-numbers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .wheel-number {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 1px solid #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .roleta-bets {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .bet-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .number-bets {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .bet-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .number-bet {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .number-bet:hover {
+            background: #FFD700;
+            transform: scale(1.1);
+        }
+
+        .special-bets {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .special-bet {
+            padding: 10px;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .special-bet.red {
+            background: #DC143C;
+            color: white;
+        }
+
+        .special-bet.black {
+            background: #000;
+            color: white;
+        }
+
+        .special-bet:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .roleta-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .roleta-btn {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .roleta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .roleta-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Estilos dos Dados */
+        .dados-table {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+        }
+
+        .dados-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dice {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border: 3px solid #333;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .dice:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .dice.rolling {
+            animation: diceRoll 0.5s ease-in-out infinite;
+        }
+
+        @keyframes diceRoll {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(1.1); }
+        }
+
+        .dados-bets {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .dados-bet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .dados-bet {
+            padding: 10px;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .dados-bet:hover {
+            background: #FFD700;
+            transform: scale(1.05);
+        }
+
+        .dados-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .dados-btn {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .dados-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .dados-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .container {
             background: linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #8B0000 100%);
             border-radius: 0;
@@ -1180,6 +1459,153 @@
         <div class="message" id="blackjackMessage"></div>
     </div>
 
+    <!-- Container do Jogo Roleta -->
+    <div class="container game-container" id="roletaGame" style="display: none;">
+        <!-- Botão Voltar -->
+        <div class="back-button" onclick="backToMenu()">
+            <span>←</span> Voltar ao Menu
+        </div>
+        
+        <!-- ROLETA Section -->
+        <div class="jackpot-section">
+            <div class="crown">🎲</div>
+            <h1 class="jackpot-title">ROLETA</h1>
+        </div>
+
+        <!-- Mesa de Roleta -->
+        <div class="roleta-table">
+            <div class="roleta-wheel-container">
+                <div class="roleta-wheel" id="roletaWheel">
+                    <div class="wheel-center">
+                        <div class="ball" id="roletaBall"></div>
+                    </div>
+                    <div class="wheel-numbers" id="wheelNumbers"></div>
+                </div>
+            </div>
+            
+            <div class="roleta-bets">
+                <div class="bet-section">
+                    <h3>💰 Apostas</h3>
+                    <div class="bet-grid">
+                        <!-- Números individuais -->
+                        <div class="number-bets">
+                            <div class="bet-row">
+                                <button class="number-bet" onclick="placeBet(0, 35)">0</button>
+                            </div>
+                            <div class="bet-row">
+                                <button class="number-bet" onclick="placeBet(1, 35)">1</button>
+                                <button class="number-bet" onclick="placeBet(2, 35)">2</button>
+                                <button class="number-bet" onclick="placeBet(3, 35)">3</button>
+                            </div>
+                            <div class="bet-row">
+                                <button class="number-bet" onclick="placeBet(4, 35)">4</button>
+                                <button class="number-bet" onclick="placeBet(5, 35)">5</button>
+                                <button class="number-bet" onclick="placeBet(6, 35)">6</button>
+                            </div>
+                            <div class="bet-row">
+                                <button class="number-bet" onclick="placeBet(7, 35)">7</button>
+                                <button class="number-bet" onclick="placeBet(8, 35)">8</button>
+                                <button class="number-bet" onclick="placeBet(9, 35)">9</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Apostas especiais -->
+                        <div class="special-bets">
+                            <button class="special-bet red" onclick="placeBet('red', 1)">Vermelho</button>
+                            <button class="special-bet black" onclick="placeBet('black', 1)">Preto</button>
+                            <button class="special-bet even" onclick="placeBet('even', 1)">Par</button>
+                            <button class="special-bet odd" onclick="placeBet('odd', 1)">Ímpar</button>
+                            <button class="special-bet low" onclick="placeBet('low', 1)">1-18</button>
+                            <button class="special-bet high" onclick="placeBet('high', 1)">19-36</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles da Roleta -->
+        <div class="roleta-controls">
+            <button class="roleta-btn" id="spinRoletaBtn" onclick="spinRoleta()">GIRAR ROLETA</button>
+            <button class="roleta-btn" onclick="clearBets()">LIMPAR APOSTAS</button>
+        </div>
+
+        <!-- Info da Roleta -->
+        <div class="info-panel">
+            <div class="info-card saldo">
+                <div class="info-label">💰 Saldo</div>
+                <div class="info-value" id="roletaSaldo">R$ 1000.00</div>
+            </div>
+            <div class="info-card jackpot">
+                <div class="info-label">🎯 Aposta Total</div>
+                <div class="info-value" id="roletaBetTotal">R$ 0.00</div>
+            </div>
+        </div>
+
+        <div class="message" id="roletaMessage"></div>
+    </div>
+
+    <!-- Container do Jogo Dados -->
+    <div class="container game-container" id="dadosGame" style="display: none;">
+        <!-- Botão Voltar -->
+        <div class="back-button" onclick="backToMenu()">
+            <span>←</span> Voltar ao Menu
+        </div>
+        
+        <!-- DADOS Section -->
+        <div class="jackpot-section">
+            <div class="crown">🎯</div>
+            <h1 class="jackpot-title">DADOS</h1>
+        </div>
+
+        <!-- Mesa de Dados -->
+        <div class="dados-table">
+            <div class="dados-container">
+                <div class="dice" id="dice1">⚀</div>
+                <div class="dice" id="dice2">⚀</div>
+                <div class="dice" id="dice3">⚀</div>
+            </div>
+            
+            <div class="dados-bets">
+                <div class="bet-section">
+                    <h3>🎲 Apostas</h3>
+                    <div class="dados-bet-grid">
+                        <button class="dados-bet" onclick="placeDadosBet(7, 6)">Soma 7</button>
+                        <button class="dados-bet" onclick="placeDadosBet(11, 6)">Soma 11</button>
+                        <button class="dados-bet" onclick="placeDadosBet(2, 30)">Soma 2</button>
+                        <button class="dados-bet" onclick="placeDadosBet(12, 30)">Soma 12</button>
+                        <button class="dados-bet" onclick="placeDadosBet(3, 15)">Soma 3</button>
+                        <button class="dados-bet" onclick="placeDadosBet(4, 10)">Soma 4</button>
+                        <button class="dados-bet" onclick="placeDadosBet(5, 8)">Soma 5</button>
+                        <button class="dados-bet" onclick="placeDadosBet(6, 6)">Soma 6</button>
+                        <button class="dados-bet" onclick="placeDadosBet(8, 6)">Soma 8</button>
+                        <button class="dados-bet" onclick="placeDadosBet(9, 8)">Soma 9</button>
+                        <button class="dados-bet" onclick="placeDadosBet(10, 10)">Soma 10</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles dos Dados -->
+        <div class="dados-controls">
+            <button class="dados-btn" id="rollDadosBtn" onclick="rollDados()">LANÇAR DADOS</button>
+            <button class="dados-btn" onclick="clearDadosBets()">LIMPAR APOSTAS</button>
+        </div>
+
+        <!-- Info dos Dados -->
+        <div class="info-panel">
+            <div class="info-card saldo">
+                <div class="info-label">💰 Saldo</div>
+                <div class="info-value" id="dadosSaldo">R$ 1000.00</div>
+            </div>
+            <div class="info-card jackpot">
+                <div class="info-label">🎯 Aposta Total</div>
+                <div class="info-value" id="dadosBetTotal">R$ 0.00</div>
+            </div>
+        </div>
+
+        <div class="message" id="dadosMessage"></div>
+    </div>
+
     <script>
         // Variáveis do jogo
         let saldo = 1000.0;
@@ -1371,6 +1797,16 @@
                 currentGame = 'blackjack';
                 blackjackSaldo = totalSaldo; // Sincronizar saldo
                 updateDisplay();
+            } else if (gameType === 'roleta') {
+                document.getElementById('roletaGame').style.display = 'block';
+                currentGame = 'roleta';
+                roletaSaldo = totalSaldo; // Sincronizar saldo
+                updateRoletaDisplay();
+            } else if (gameType === 'dados') {
+                document.getElementById('dadosGame').style.display = 'block';
+                currentGame = 'dados';
+                dadosSaldo = totalSaldo; // Sincronizar saldo
+                updateDadosDisplay();
             } else {
                 // Para outros jogos (ainda não implementados)
                 showMessage(`🎮 ${gameType.toUpperCase()} em desenvolvimento!`, 'info');
@@ -1390,6 +1826,12 @@
             } else if (currentGame === 'blackjack') {
                 document.getElementById('blackjackGame').style.display = 'none';
                 totalSaldo = blackjackSaldo; // Sincronizar saldo de volta
+            } else if (currentGame === 'roleta') {
+                document.getElementById('roletaGame').style.display = 'none';
+                totalSaldo = roletaSaldo; // Sincronizar saldo de volta
+            } else if (currentGame === 'dados') {
+                document.getElementById('dadosGame').style.display = 'none';
+                totalSaldo = dadosSaldo; // Sincronizar saldo de volta
             }
             
             // Mostrar menu
@@ -1600,6 +2042,313 @@
 
         function showBlackjackMessage(text, type) {
             const messageEl = document.getElementById('blackjackMessage');
+            messageEl.textContent = text;
+            messageEl.className = `message show ${type}`;
+            
+            setTimeout(() => {
+                messageEl.className = 'message';
+            }, 3000);
+        }
+
+        // Sistema da Roleta
+        let roletaSaldo = 1000.0;
+        let roletaBets = {};
+        let roletaSpinning = false;
+
+        const roletaNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const redNumbers = [1, 3, 5, 7, 9];
+        const blackNumbers = [2, 4, 6, 8];
+
+        function placeBet(bet, multiplier) {
+            if (roletaSpinning) return;
+            
+            const betAmount = 10; // Aposta fixa de R$ 10
+            if (roletaSaldo < betAmount) {
+                showRoletaMessage('Saldo insuficiente!', 'lose');
+                return;
+            }
+            
+            roletaSaldo -= betAmount;
+            if (!roletaBets[bet]) {
+                roletaBets[bet] = 0;
+            }
+            roletaBets[bet] += betAmount;
+            
+            updateRoletaDisplay();
+            showRoletaMessage(`Aposta de R$ ${betAmount} em ${bet}`, 'info');
+        }
+
+        function clearBets() {
+            if (roletaSpinning) return;
+            
+            roletaBets = {};
+            updateRoletaDisplay();
+            showRoletaMessage('Apostas limpas!', 'info');
+        }
+
+        function spinRoleta() {
+            if (roletaSpinning) return;
+            
+            const totalBet = Object.values(roletaBets).reduce((sum, bet) => sum + bet, 0);
+            if (totalBet === 0) {
+                showRoletaMessage('Faça pelo menos uma aposta!', 'lose');
+                return;
+            }
+            
+            roletaSpinning = true;
+            document.getElementById('spinRoletaBtn').disabled = true;
+            document.getElementById('spinRoletaBtn').textContent = 'GIRANDO...';
+            
+            // Efeitos visuais
+            effects.createScreenFlash('#FFD700');
+            const wheel = document.getElementById('roletaWheel');
+            if (wheel) {
+                effects.addGlowEffect(wheel);
+            }
+            
+            // Animação da roleta
+            let spins = 0;
+            const maxSpins = 20;
+            const interval = setInterval(() => {
+                const randomNumber = Math.floor(Math.random() * 10);
+                updateWheelDisplay(randomNumber);
+                spins++;
+                
+                if (spins >= maxSpins) {
+                    clearInterval(interval);
+                    const finalNumber = Math.floor(Math.random() * 10);
+                    updateWheelDisplay(finalNumber);
+                    processRoletaResult(finalNumber);
+                }
+            }, 100);
+        }
+
+        function updateWheelDisplay(number) {
+            const wheelNumbers = document.getElementById('wheelNumbers');
+            if (wheelNumbers) {
+                wheelNumbers.innerHTML = '';
+                const numberEl = document.createElement('div');
+                numberEl.className = 'wheel-number';
+                numberEl.textContent = number;
+                numberEl.style.top = '10px';
+                numberEl.style.left = '50%';
+                numberEl.style.transform = 'translateX(-50%)';
+                wheelNumbers.appendChild(numberEl);
+            }
+        }
+
+        function processRoletaResult(number) {
+            roletaSpinning = false;
+            document.getElementById('spinRoletaBtn').disabled = false;
+            document.getElementById('spinRoletaBtn').textContent = 'GIRAR ROLETA';
+            
+            const wheel = document.getElementById('roletaWheel');
+            if (wheel) {
+                effects.removeGlowEffect(wheel);
+            }
+            
+            let totalWinnings = 0;
+            let winningBets = [];
+            
+            // Verificar apostas
+            for (let [bet, amount] of Object.entries(roletaBets)) {
+                let won = false;
+                let multiplier = 1;
+                
+                if (bet === number) {
+                    won = true;
+                    multiplier = 35; // Número específico
+                } else if (bet === 'red' && redNumbers.includes(number)) {
+                    won = true;
+                    multiplier = 1;
+                } else if (bet === 'black' && blackNumbers.includes(number)) {
+                    won = true;
+                    multiplier = 1;
+                } else if (bet === 'even' && number % 2 === 0 && number !== 0) {
+                    won = true;
+                    multiplier = 1;
+                } else if (bet === 'odd' && number % 2 === 1) {
+                    won = true;
+                    multiplier = 1;
+                } else if (bet === 'low' && number >= 1 && number <= 5) {
+                    won = true;
+                    multiplier = 1;
+                } else if (bet === 'high' && number >= 6 && number <= 9) {
+                    won = true;
+                    multiplier = 1;
+                }
+                
+                if (won) {
+                    const winnings = amount * multiplier;
+                    totalWinnings += winnings;
+                    winningBets.push(`${bet}: R$ ${winnings.toFixed(2)}`);
+                }
+            }
+            
+            roletaSaldo += totalWinnings;
+            
+            if (totalWinnings > 0) {
+                showRoletaMessage(`Número: ${number}! Ganhou R$ ${totalWinnings.toFixed(2)}!`, 'win');
+                effects.createParticleBurst(window.innerWidth / 2, window.innerHeight / 2, '#32CD32', 30);
+            } else {
+                showRoletaMessage(`Número: ${number}. Perdeu!`, 'lose');
+                effects.shakeElement(document.getElementById('roletaGame'));
+            }
+            
+            roletaBets = {};
+            totalSaldo = roletaSaldo;
+            updateRoletaDisplay();
+        }
+
+        function updateRoletaDisplay() {
+            const totalBet = Object.values(roletaBets).reduce((sum, bet) => sum + bet, 0);
+            document.getElementById('roletaSaldo').textContent = `R$ ${roletaSaldo.toFixed(2)}`;
+            document.getElementById('roletaBetTotal').textContent = `R$ ${totalBet.toFixed(2)}`;
+        }
+
+        function showRoletaMessage(text, type) {
+            const messageEl = document.getElementById('roletaMessage');
+            messageEl.textContent = text;
+            messageEl.className = `message show ${type}`;
+            
+            setTimeout(() => {
+                messageEl.className = 'message';
+            }, 3000);
+        }
+
+        // Sistema dos Dados
+        let dadosSaldo = 1000.0;
+        let dadosBets = {};
+        let dadosRolling = false;
+
+        const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+        function placeDadosBet(sum, multiplier) {
+            if (dadosRolling) return;
+            
+            const betAmount = 10; // Aposta fixa de R$ 10
+            if (dadosSaldo < betAmount) {
+                showDadosMessage('Saldo insuficiente!', 'lose');
+                return;
+            }
+            
+            dadosSaldo -= betAmount;
+            if (!dadosBets[sum]) {
+                dadosBets[sum] = 0;
+            }
+            dadosBets[sum] += betAmount;
+            
+            updateDadosDisplay();
+            showDadosMessage(`Aposta de R$ ${betAmount} na soma ${sum}`, 'info');
+        }
+
+        function clearDadosBets() {
+            if (dadosRolling) return;
+            
+            dadosBets = {};
+            updateDadosDisplay();
+            showDadosMessage('Apostas limpas!', 'info');
+        }
+
+        function rollDados() {
+            if (dadosRolling) return;
+            
+            const totalBet = Object.values(dadosBets).reduce((sum, bet) => sum + bet, 0);
+            if (totalBet === 0) {
+                showDadosMessage('Faça pelo menos uma aposta!', 'lose');
+                return;
+            }
+            
+            dadosRolling = true;
+            document.getElementById('rollDadosBtn').disabled = true;
+            document.getElementById('rollDadosBtn').textContent = 'LANÇANDO...';
+            
+            // Efeitos visuais
+            effects.createScreenFlash('#FFD700');
+            const dados = document.querySelectorAll('.dice');
+            dados.forEach(dice => {
+                dice.classList.add('rolling');
+                effects.addGlowEffect(dice);
+            });
+            
+            // Animação dos dados
+            let rolls = 0;
+            const maxRolls = 15;
+            const interval = setInterval(() => {
+                dados.forEach(dice => {
+                    const randomFace = Math.floor(Math.random() * 6);
+                    dice.textContent = diceFaces[randomFace];
+                });
+                rolls++;
+                
+                if (rolls >= maxRolls) {
+                    clearInterval(interval);
+                    const finalResults = [
+                        Math.floor(Math.random() * 6) + 1,
+                        Math.floor(Math.random() * 6) + 1,
+                        Math.floor(Math.random() * 6) + 1
+                    ];
+                    
+                    dados.forEach((dice, index) => {
+                        dice.textContent = diceFaces[finalResults[index] - 1];
+                        dice.classList.remove('rolling');
+                        effects.removeGlowEffect(dice);
+                    });
+                    
+                    const totalSum = finalResults.reduce((sum, dice) => sum + dice, 0);
+                    processDadosResult(totalSum);
+                }
+            }, 100);
+        }
+
+        function processDadosResult(sum) {
+            dadosRolling = false;
+            document.getElementById('rollDadosBtn').disabled = false;
+            document.getElementById('rollDadosBtn').textContent = 'LANÇAR DADOS';
+            
+            let totalWinnings = 0;
+            let winningBets = [];
+            
+            // Verificar apostas
+            for (let [betSum, amount] of Object.entries(dadosBets)) {
+                if (parseInt(betSum) === sum) {
+                    let multiplier = 1;
+                    if (sum === 2 || sum === 12) multiplier = 30;
+                    else if (sum === 3) multiplier = 15;
+                    else if (sum === 4 || sum === 10) multiplier = 10;
+                    else if (sum === 5 || sum === 9) multiplier = 8;
+                    else if (sum === 6 || sum === 8) multiplier = 6;
+                    else if (sum === 7 || sum === 11) multiplier = 6;
+                    
+                    const winnings = amount * multiplier;
+                    totalWinnings += winnings;
+                    winningBets.push(`Soma ${betSum}: R$ ${winnings.toFixed(2)}`);
+                }
+            }
+            
+            dadosSaldo += totalWinnings;
+            
+            if (totalWinnings > 0) {
+                showDadosMessage(`Soma: ${sum}! Ganhou R$ ${totalWinnings.toFixed(2)}!`, 'win');
+                effects.createParticleBurst(window.innerWidth / 2, window.innerHeight / 2, '#32CD32', 30);
+            } else {
+                showDadosMessage(`Soma: ${sum}. Perdeu!`, 'lose');
+                effects.shakeElement(document.getElementById('dadosGame'));
+            }
+            
+            dadosBets = {};
+            totalSaldo = dadosSaldo;
+            updateDadosDisplay();
+        }
+
+        function updateDadosDisplay() {
+            const totalBet = Object.values(dadosBets).reduce((sum, bet) => sum + bet, 0);
+            document.getElementById('dadosSaldo').textContent = `R$ ${dadosSaldo.toFixed(2)}`;
+            document.getElementById('dadosBetTotal').textContent = `R$ ${totalBet.toFixed(2)}`;
+        }
+
+        function showDadosMessage(text, type) {
+            const messageEl = document.getElementById('dadosMessage');
             messageEl.textContent = text;
             messageEl.className = `message show ${type}`;
             
@@ -2022,6 +2771,8 @@
             document.getElementById('mainMenu').style.display = 'flex';
             document.getElementById('jackpotGame').style.display = 'none';
             document.getElementById('blackjackGame').style.display = 'none';
+            document.getElementById('roletaGame').style.display = 'none';
+            document.getElementById('dadosGame').style.display = 'none';
             updateTotalSaldo();
             
             // Event listeners serão configurados quando o jogo Jackpot for aberto
