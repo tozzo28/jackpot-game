@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎰 JACKPOT GAME 🎰</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎰</text></svg>">
     <style>
         * {
             margin: 0;
@@ -1607,6 +1608,40 @@
         // Elementos DOM (verificar se existem)
         let saldoEl, jackpotEl, betInputEl, spinBtnEl, messageEl, historyListEl, slots;
 
+        function setupSlotHoverEffects() {
+            if (slots) {
+                slots.forEach(slot => {
+                    if (slot) {
+                        slot.addEventListener('mouseenter', () => {
+                            if (!rodando) {
+                                effects.addGlowEffect(slot);
+                            }
+                        });
+                        
+                        slot.addEventListener('mouseleave', () => {
+                            if (!rodando) {
+                                effects.removeGlowEffect(slot);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        function setupSpinButtonEffects() {
+            if (spinBtnEl) {
+                spinBtnEl.addEventListener('mouseenter', () => {
+                    if (!rodando) {
+                        effects.addGlowEffect(spinBtnEl);
+                    }
+                });
+                
+                spinBtnEl.addEventListener('mouseleave', () => {
+                    effects.removeGlowEffect(spinBtnEl);
+                });
+            }
+        }
+
         function initializeDOMElements() {
             saldoEl = document.getElementById('saldo');
             jackpotEl = document.getElementById('jackpot');
@@ -1986,41 +2021,7 @@
             document.getElementById('blackjackGame').style.display = 'none';
             updateTotalSaldo();
             
-            // Efeitos de hover nos slots (será configurado quando o jogo Jackpot for aberto)
-            function setupSlotHoverEffects() {
-                if (slots) {
-                    slots.forEach(slot => {
-                        if (slot) {
-                            slot.addEventListener('mouseenter', () => {
-                                if (!rodando) {
-                                    effects.addGlowEffect(slot);
-                                }
-                            });
-                            
-                            slot.addEventListener('mouseleave', () => {
-                                if (!rodando) {
-                                    effects.removeGlowEffect(slot);
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-            
-            // Efeito de hover no botão spin (será configurado quando o jogo Jackpot for aberto)
-            function setupSpinButtonEffects() {
-                if (spinBtnEl) {
-                    spinBtnEl.addEventListener('mouseenter', () => {
-                        if (!rodando) {
-                            effects.addGlowEffect(spinBtnEl);
-                        }
-                    });
-                    
-                    spinBtnEl.addEventListener('mouseleave', () => {
-                        effects.removeGlowEffect(spinBtnEl);
-                    });
-                }
-            }
+            // Event listeners serão configurados quando o jogo Jackpot for aberto
             
             // Efeito de hover na alavanca
             const lever = document.querySelector('.slot-lever');
