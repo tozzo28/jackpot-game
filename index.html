@@ -2802,6 +2802,68 @@
             showMessage('🔄 Jogo resetado!', 'win');
         }
         window.reset = reset;
+
+        // Elementos DOM (verificar se existem)
+        let saldoEl, jackpotEl, betInputEl, spinBtnEl, messageEl, historyListEl, slots;
+
+        // Garante que os elementos do Jackpot estejam disponíveis
+        function ensureJackpotDomGlobal() {
+            try {
+                if (!saldoEl) saldoEl = document.getElementById('saldo');
+                if (!jackpotEl) jackpotEl = document.getElementById('jackpot');
+                if (!betInputEl) betInputEl = document.getElementById('betInput');
+                if (!spinBtnEl) spinBtnEl = document.getElementById('spinBtn');
+                if (!messageEl) messageEl = document.getElementById('message');
+                if (!historyListEl) historyListEl = document.getElementById('historyList');
+                if (!slots || !slots.length) {
+                    slots = [
+                        document.getElementById('slot1'),
+                        document.getElementById('slot2'),
+                        document.getElementById('slot3')
+                    ];
+                }
+            } catch (e) { /* ignore */ }
+        }
+
+        function setBet(valor) {
+            ensureJackpotDomGlobal();
+            if (betInputEl) {
+                betInputEl.value = valor;
+                effects.zoomElement(betInputEl);
+            }
+        }
+
+        function spin() {
+            ensureJackpotDomGlobal();
+            if (rodando) return;
+ 
+            if (!betInputEl) return;
+            apostaAtual = parseFloat(betInputEl.value);
+        }
+
+        function reset() {
+            ensureJackpotDomGlobal();
+            // Efeitos de reset
+            effects.createScreenFlash('#32CD32');
+            const slotMachine = document.getElementById('slotMachine');
+            if (slotMachine) {
+                effects.shakeElement(slotMachine);
+            }
+        }
+
+        function showMessage(texto, tipo = 'info') {
+            if (messageEl) {
+                messageEl.textContent = texto;
+                messageEl.className = `message show ${tipo}`;
+            }
+            
+            setTimeout(() => {
+                if (messageEl) {
+                    messageEl.classList.remove('show');
+                }
+            }, 3000);
+        }
+        window.showMessage = showMessage;
     </script>
 </body>
 </html>
