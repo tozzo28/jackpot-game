@@ -16,6 +16,17 @@
             if (window.__realBackToMenu) return window.__realBackToMenu();
             // sem fila necessária para voltar ao menu antes do script
         };
+        // Define funções globais nomeadas para funcionar com inline onclick
+        function openGame(game) {
+            if (window.__realOpenGame) return window.__realOpenGame(game);
+            window.__openGameQueue.push(game);
+        }
+        function backToMenu() {
+            if (window.__realBackToMenu) return window.__realBackToMenu();
+        }
+        // Também espelha em window para qualquer acesso por propriedade
+        window.openGame = openGame;
+        window.backToMenu = backToMenu;
     </script>
     <style>
         * {
