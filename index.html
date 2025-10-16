@@ -1336,60 +1336,19 @@
         }
 
         body.is-mobile .container {
-            max-width: 360px;
+            max-width: 400px;
             width: 95%;
             margin: 12px auto;
             border-width: 3px;
         }
-
-        body.is-mobile .jackpot-title { font-size: 1.8rem; }
-        body.is-mobile .reels-section { padding: 16px; }
-        body.is-mobile .slots { gap: 8px; }
-        body.is-mobile .slot { width: 64px; height: 72px; font-size: 1.8rem; }
-        body.is-mobile .spin-btn { padding: 12px 24px; font-size: 1.1rem; }
-        body.is-mobile .info-panel { grid-template-columns: 1fr; gap: 12px; }
-        body.is-mobile .controls { grid-template-columns: 1fr; gap: 12px; }
-        body.is-mobile .quick-bets { grid-template-columns: repeat(2, 1fr); }
-        body.is-mobile .back-button { top: 10px; left: 10px; padding: 10px 16px; font-size: 12px; z-index: 2000; }
-        body.is-mobile .game-card { padding: 20px; }
-        body.is-mobile .casino-title { font-size: 2.2rem; }
-        body.is-mobile .casino-logo { font-size: 2.8rem; }
-        body.is-mobile .games-grid { gap: 16px; }
-
-        /* ... existing code ... */
-        body.is-mobile {
-            align-items: flex-start;
-            overflow-y: auto;
-        }
-
-        /* Layout empilhado no mobile (retrato) */
-        body.is-mobile .reels-section {
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        body.is-mobile .spin-section { padding: 14px; }
-        body.is-mobile .spin-section .spin-btn { width: 100%; }
-        body.is-mobile .bet-section { padding: 14px; }
-        body.is-mobile .action-section { gap: 10px; }
-        body.is-mobile .quick-bet { padding: 8px; }
-
-        /* Ajustes para componentes de outros jogos no mobile */
-        body.is-mobile .roleta-wheel { width: 160px; height: 160px; }
-        body.is-mobile .wheel-number { width: 18px; height: 18px; font-size: 9px; }
-        body.is-mobile .roleta-controls, body.is-mobile .dados-controls { gap: 12px; }
-        body.is-mobile .roleta-btn, body.is-mobile .dados-btn { width: 100%; padding: 12px 16px; font-size: 1rem; }
-        body.is-mobile .dados-container { gap: 12px; }
-        body.is-mobile .dice { width: 64px; height: 64px; font-size: 2rem; }
-
-        /* Muito estreito (até 360px) */
+        body.is-mobile .games-grid { grid-template-columns: 1fr; gap: 18px; }
+        body.is-mobile .game-card { padding: 24px; }
+        body.is-mobile .game-preview { width: 100%; text-align: center; padding: 10px 12px; }
+        body.is-mobile .casino-title { font-size: 2.6rem; }
+        /* muito estreito continua menor */
         @media (max-width: 360px) {
-            body.is-mobile .slot { width: 56px; height: 64px; font-size: 1.6rem; }
-            body.is-mobile .jackpot-title { font-size: 1.6rem; }
-            body.is-mobile .casino-title { font-size: 1.8rem; }
-            body.is-mobile .casino-logo { font-size: 2.4rem; }
             body.is-mobile .container { max-width: 340px; }
+            body.is-mobile .casino-title { font-size: 2rem; }
         }
         /* ... existing code ... */
     </style>
