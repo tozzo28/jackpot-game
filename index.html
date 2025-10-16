@@ -1351,6 +1351,27 @@
             body.is-mobile .casino-title { font-size: 2rem; }
         }
         /* ... existing code ... */
+        /* Desktop amplo (ocupar mais da tela) */
+        @media (min-width: 1024px) {
+            body:not(.is-mobile) .container {
+                max-width: 1200px;
+                width: 95%;
+                margin: 24px auto;
+            }
+            body:not(.is-mobile) .games-grid {
+                max-width: 1200px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 32px;
+            }
+            body:not(.is-mobile) .jackpot-title { font-size: 3rem; }
+            body:not(.is-mobile) .reels-section { padding: 40px; }
+            body:not(.is-mobile) .slot { width: 100px; height: 120px; font-size: 3.2rem; }
+            body:not(.is-mobile) .spin-section { padding: 28px; }
+            body:not(.is-mobile) .spin-btn { padding: 16px 48px; font-size: 1.6rem; }
+            body:not(.is-mobile) .info-panel { grid-template-columns: 1fr 1fr; gap: 24px; }
+            body:not(.is-mobile) .controls { grid-template-columns: 1fr 1fr; gap: 24px; }
+        }
+        /* ... existing code ... */
     </style>
 </head>
 <body>
