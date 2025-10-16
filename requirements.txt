@@ -1,0 +1,11 @@
+# Jackpot Game - Dependências
+
+# Para executar o jogo normalmente (apenas Python padrão):
+# - tkinter (interface gráfica)
+# - threading (animações)
+# - random (números aleatórios)
+# - time (delays)
+# - datetime (timestamps)
+
+# Para criar executável (opcional):
+pyinstaller>=5.0.0
