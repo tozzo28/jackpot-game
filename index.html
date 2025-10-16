@@ -2684,3 +2684,52 @@
         }
 
         function updateDadosDisplay() {
+            // ... (rest of the code remains unchanged)
+        }
+
+        // Efeitos de hover e interação
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar com menu principal
+            document.getElementById('mainMenu').style.display = 'flex';
+            document.getElementById('jackpotGame').style.display = 'none';
+            document.getElementById('blackjackGame').style.display = 'none';
+            document.getElementById('roletaGame').style.display = 'none';
+            document.getElementById('dadosGame').style.display = 'none';
+            updateTotalSaldo();
+            
+            // Event listeners serão configurados quando o jogo Jackpot for aberto
+            
+            // Efeito de hover na alavanca
+            const lever = document.querySelector('.slot-lever');
+            if (lever) {
+                lever.addEventListener('mouseenter', () => {
+                    effects.addGlowEffect(lever);
+                });
+                
+                lever.addEventListener('mouseleave', () => {
+                    effects.removeGlowEffect(lever);
+                });
+            }
+            
+            // Efeitos de clique nos botões de aposta
+            document.querySelectorAll('.quick-bet').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    effects.zoomElement(btn);
+                });
+            });
+            
+            // Efeito de clique no botão reset
+            const resetBtn = document.querySelector('.reset-btn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    effects.zoomElement(resetBtn);
+                });
+            }
+        });
+
+        // Definir globais finais para o menu
+        window.openGame = function(gameType){ return window.__realOpenGame(gameType); };
+        window.backToMenu = function(){ return window.__realBackToMenu(); };
+    </script>
+</body>
+</html>
